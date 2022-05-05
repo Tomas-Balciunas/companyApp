@@ -11286,3 +11286,7 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.recentCont {
+  max-width: 35em;
+  background-image: linear-gradient(rgb(59, 68, 92), rgb(0, 0, 0));
+}

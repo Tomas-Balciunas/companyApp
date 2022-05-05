@@ -1,90 +1,99 @@
 @extends('main')
 @section('content')
 
-@if (Session::has('message'))
-{{Session::get('message')}}
-@endif
-
-@if (Session::has('warning'))
-{{Session::get('warning')}}
-@endif
-<div id="app">
+<div id="app" class="d-flex justify-content-center">
     <recent-api />
 </div>
 
-<form action="/addCompany" enctype="multipart/form-data" method="post">
-    {{csrf_field()}}
-    <div>
-        <h6 for="name">Name</h6>
-        <input type="text" name="name" value="{{old('name')}}"></input>
-    </div>
-    @error('name')
-        {{$message}}
-    @enderror
-    <div>
-        <h6 for="email">Email</h6>
-        <input type="text" name="email" value="{{old('email')}}"></input>
-    </div>
-    @error('email')
-        {{$message}}
-    @enderror
-    <div>
-        <h6 for="address">Address</h6>
-        <input type="text" name="address" value="{{old('address')}}"></input>
-    </div>
-    @error('address')
-        {{$message}}
-    @enderror
-    <div>
-        <h6 for="logo">Logo</h6>
-        <input type="file" name="logo">
-    </div>
-    @error('logo')
-        {{$message}}
-    @enderror
-    <div>
-        <button type="submit">Create</button>
-    </div>
-</form>
+<div class="container mt-5 mb-5">
+    <form action="/addCompany" enctype="multipart/form-data" method="post">
+        {{csrf_field()}}
 
-<a href="logout">Logout</a>
+        <div class="row">
+            <h3 class="text-center font-weight-bold">Create company</h3>
+        </div>
 
-@if (count($companies) > 0)
-<table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($companies as $company)
-        <tr>
-            @if ($company->logo != null)
-            <td><img src="{{asset('/storage/'.$company->logo)}}" width="60"></td>
-            @else
-            <td><img src="{{asset('/storage/placeholder/placeholder.png')}}" width="60"></td>
-            @endif
-            <td>{{$company->name}}</td>
-            <td>{{$company->email}}</td>
-            <td>{{$company->address != null ? $company->address : "No address specified"}}</td>
-            <td><a href="/edit/{{$company->id}}">Edit</a></td>
-            <td>
-                <form action="/delete/{{$company->id}}" method="POST">
-                    @method('delete')
-                    {{csrf_field()}}
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@else
-<p>You have no created companies</p>
-@endif
+        <div class="row mt-2 mb-2">
+            <div class="col-xl-6 col-md">
+                <input type="text" class="form-control" placeholder="Name" name="name" value="{{old('name')}}"></input>
+                @error('name')
+                    <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="col-xl-6 col-md">
+                <input type="text" class="form-control" placeholder="Email" name="email" value="{{old('email')}}"></input>
+                @error('email')
+                    <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+        </div>
 
+        <div class="row mt-2 mb-2">
+            <div class="col-xl-6 col-md">
+                <input type="text" class="form-control" placeholder="Address" name="address" value="{{old('address')}}"></input>
+                @error('address')
+                    <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="col-xl-6 col-md">
+                <input type="file" class="form-control" vvname="logo">
+                @error('logo')
+                    <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row mt-3 mb-2 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-success col-auto">Create</button>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    @if (count($companies) > 0)
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="table-dark">
+                    <th></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($companies as $company)
+                <tr>
+                    @if ($company->logo != null)
+                    <td><img src="{{asset('/storage/'.$company->logo)}}" width="60"></td>
+                    @else
+                    <td><img src="{{asset('/storage/placeholder/placeholder.png')}}" width="60"></td>
+                    @endif
+                    <td class="align-middle">{{$company->name}}</td>
+                    <td class="align-middle">{{$company->email}}</td>
+                    <td class="align-middle">{{$company->address != null ? $company->address : "No address specified"}}</td>
+                    <td><a href="/edit/{{$company->id}}" class="btn btn-outline-primary col-auto">Edit</a></td>
+                    <td>
+                        <form action="/delete/{{$company->id}}" method="POST">
+                            @method('delete')
+                            {{csrf_field()}}
+                            <button type="submit" class="btn btn-outline-danger col-auto">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @else
+    <h3 class="text-center">You have no created companies</h3>
+    @endif
+</div>
+
+<div class="col d-flex justify-content-center mb-5 mt-5">
+    <a href="logout" class="btn btn-outline-danger">Logout</a>
+</div>
 
 @endsection

@@ -41,14 +41,14 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required',
-            'user_email' => 'required|email|unique:users',
-            'password' => 'required|min:6|max:16'
+            'email' => 'required|email|unique:users,user_email',
+            'pass' => 'required|min:6|max:16'
         ]);
 
         User::create([
             'username' => $request->username,
-            'user_email' => $request->user_email,
-            'password' => Hash::make($request->password)
+            'user_email' => $request->email,
+            'password' => Hash::make($request->pass)
         ]);
 
         return back()->with('message', 'Registration successful! You may now log in.');

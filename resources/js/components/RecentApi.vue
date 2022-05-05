@@ -1,10 +1,15 @@
 <template>
-    <div>
+    <div class="container border border-secondary rounded d-inline-flex flex-column m-2 pb-2 recentCont">
+    <h5 class="text-center mt-3 text-light font-weight-bold">Five newest companies</h5>
         <template v-for="e in companies">
-            <div>
-                <img v-if="e.logo != null" :src="'/storage/' + e.logo" width="60">
-                <img v-else :src="'/storage/placeholder/placeholder.png'" width="60">
-                <span>{{e.name}}</span>
+            <div class="row m-2 border rounded bg-light d-inline-flex align-items-center">
+                <div class="col-auto p-0 m-1">
+                    <img v-if="e.logo != null" :src="'/storage/' + e.logo" width="50">
+                    <img v-else :src="'/storage/placeholder/placeholder.png'" width="50">
+                </div>
+                <div class="col p-0 m-1">
+                    <span>{{e.name}}</span>
+                </div>
             </div>
         </template>
     </div>

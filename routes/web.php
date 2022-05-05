@@ -33,4 +33,3 @@ Route::group(['middleware' => ['logcheck']], function () {
 });
 
 Route::get('/logout', [UserController::class, 'logout']);
-

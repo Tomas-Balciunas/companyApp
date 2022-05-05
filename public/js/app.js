@@ -5380,6 +5380,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -27992,21 +27997,44 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass:
+        "container border border-secondary rounded d-inline-flex flex-column m-2 pb-2 recentCont",
+    },
     [
+      _c(
+        "h5",
+        { staticClass: "text-center mt-3 text-light font-weight-bold" },
+        [_vm._v("Five newest companies")]
+      ),
+      _vm._v(" "),
       _vm._l(_vm.companies, function (e) {
         return [
-          _c("div", [
-            e.logo != null
-              ? _c("img", { attrs: { src: "/storage/" + e.logo, width: "60" } })
-              : _c("img", {
-                  attrs: {
-                    src: "/storage/placeholder/placeholder.png",
-                    width: "60",
-                  },
-                }),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(e.name))]),
-          ]),
+          _c(
+            "div",
+            {
+              staticClass:
+                "row m-2 border rounded bg-light d-inline-flex align-items-center",
+            },
+            [
+              _c("div", { staticClass: "col-auto p-0 m-1" }, [
+                e.logo != null
+                  ? _c("img", {
+                      attrs: { src: "/storage/" + e.logo, width: "50" },
+                    })
+                  : _c("img", {
+                      attrs: {
+                        src: "/storage/placeholder/placeholder.png",
+                        width: "50",
+                      },
+                    }),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col p-0 m-1" }, [
+                _c("span", [_vm._v(_vm._s(e.name))]),
+              ]),
+            ]
+          ),
         ]
       }),
     ],

@@ -168,7 +168,8 @@ return [
         'username' => 'name',
         'user_email' => 'email',
         'logemail' => 'email',
-        'logpassword' => 'password'
+        'logpassword' => 'password',
+        'pass' => 'password'
     ],
 
 ];
