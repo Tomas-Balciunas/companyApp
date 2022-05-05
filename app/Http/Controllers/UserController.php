@@ -24,7 +24,6 @@ class UserController extends Controller
 
         return back()->with('warning', 'Incorrect email and/or password!');
 
-
         // $user = User::where(['user_email' => $request->logemail])->first();
 
         // if ($user) {

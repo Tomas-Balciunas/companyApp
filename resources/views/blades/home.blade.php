@@ -8,26 +8,29 @@
 @if (Session::has('warning'))
 {{Session::get('warning')}}
 @endif
+<div id="app">
+    <recent-api />
+</div>
 
 <form action="/addCompany" enctype="multipart/form-data" method="post">
     {{csrf_field()}}
     <div>
         <h6 for="name">Name</h6>
-        <input type="text" name="name"></input>
+        <input type="text" name="name" value="{{old('name')}}"></input>
     </div>
     @error('name')
         {{$message}}
     @enderror
     <div>
         <h6 for="email">Email</h6>
-        <input type="text" name="email"></input>
+        <input type="text" name="email" value="{{old('email')}}"></input>
     </div>
     @error('email')
         {{$message}}
     @enderror
     <div>
         <h6 for="address">Address</h6>
-        <input type="text" name="address"></input>
+        <input type="text" name="address" value="{{old('address')}}"></input>
     </div>
     @error('address')
         {{$message}}
