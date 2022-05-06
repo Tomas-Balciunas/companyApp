@@ -11,3 +11,20 @@
     max-width: 35em;
     background-image: linear-gradient(rgb(59, 68, 92), rgb(0, 0, 0));
 }
+
+.logo {
+    max-width: 60px;
+    max-height: 80px;
+}
+
+.logoCont {
+    width: 60px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination {
+    justify-content: center;
+}

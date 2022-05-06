@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AppNotif;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use Exception;
 
 class CompanyController extends Controller
 {
     public function home()
     {
-        $companies = Company::where(['user_id' => Auth::id()])->get();
+        $companies = Company::where(['user_id' => Auth::id()])->paginate(5);
         return view('blades.home', compact('companies'));
     }
 
@@ -27,6 +30,8 @@ class CompanyController extends Controller
 
     public function addCompany(Request $request)
     {
+        $email = Auth::user()->user_email;
+
         $request->validate([
             'name' => 'required|unique:companies|max:255',
             'email' => 'required|email',
@@ -49,7 +54,14 @@ class CompanyController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return back();
+        $text = 'Company ' . $request->name . ' has been added to your list.';
+
+        try {
+            Mail::to($email)->send(new AppNotif($text));
+            return back()->with('message', 'Company ' . $request->name . ' has been added to your list. Notification email has been sent.');
+        } catch (\Exception $e) {
+            return back()->with('message', 'Company ' . $request->name . ' has been added to your list. Notification email could not be sent due to an error.'); // . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
@@ -60,18 +72,18 @@ class CompanyController extends Controller
             return redirect('/');
         } else {
             $request->validate([
-                'name' => 'required|max:255|unique:companies,name,'.$id,
+                'name' => 'required|max:255|unique:companies,name,' . $id,
                 'email' => 'required|email',
                 'address' => 'nullable|min:2|max:255',
                 'logo' => 'nullable|image|mimes:png,jpeg|max:4096',
             ]);
 
             if ($request->hasFile('logo') && !$request->has('checked')) {
-                File::delete(storage_path('app/public'.$company->path));
+                File::delete(storage_path('app/public/' . $company->logo));
                 $path = $request->file('logo')->store('public/logo');
                 $fileName = str_replace('public/', "", $path);
             } elseif ($request->has('checked')) {
-                File::delete(storage_path('app/public'.$company->path));
+                File::delete(storage_path('app/public/' . $company->logo));
                 $fileName = null;
             }
 
@@ -82,17 +94,19 @@ class CompanyController extends Controller
                 'logo' => $fileName
             ]);
 
-            return redirect('/')->with('message', 'Company '.$request->name.' has been updated!');
+            return redirect('/')->with('message', 'Company ' . $request->name . ' has been updated!');
         }
     }
 
-    public function delete ($id) {
+    public function delete($id)
+    {
         $company = Company::where(['id' => $id])->first();
         if ($company->user_id != Auth::id()) {
             return redirect('/');
         } else {
             Company::where('id', $id)->delete();
-            return redirect('/')->with('message', 'Company '. $company->name .' has been removed.');
+            File::delete(storage_path('app/public/' . $company->logo));
+            return redirect('/')->with('message', 'Company ' . $company->name . ' has been removed.');
         }
     }
 }

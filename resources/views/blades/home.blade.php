@@ -36,7 +36,7 @@
                 @enderror
             </div>
             <div class="col-xl-6 col-md">
-                <input type="file" class="form-control" vvname="logo">
+                <input type="file" class="form-control" name="logo">
                 @error('logo')
                     <span class="text-danger">{{$message}}</span>
                 @enderror
@@ -67,15 +67,15 @@
                 @foreach ($companies as $company)
                 <tr>
                     @if ($company->logo != null)
-                    <td><img src="{{asset('/storage/'.$company->logo)}}" width="60"></td>
+                    <td class="align-middle text-center"><img class="text-center logo" src="{{asset('/storage/'.$company->logo)}}"></td>
                     @else
-                    <td><img src="{{asset('/storage/placeholder/placeholder.png')}}" width="60"></td>
+                    <td class="align-middle text-center"><img class="text-center logo" src="{{asset('/storage/placeholder/placeholder.png')}}"></td>
                     @endif
-                    <td class="align-middle">{{$company->name}}</td>
+                    <td class="align-middle col-4">{{$company->name}}</td>
                     <td class="align-middle">{{$company->email}}</td>
                     <td class="align-middle">{{$company->address != null ? $company->address : "No address specified"}}</td>
-                    <td><a href="/edit/{{$company->id}}" class="btn btn-outline-primary col-auto">Edit</a></td>
-                    <td>
+                    <td class="align-middle text-center"><a href="/edit/{{$company->id}}" class="btn btn-outline-primary col-auto">Edit</a></td>
+                    <td class="align-middle text-center">
                         <form action="/delete/{{$company->id}}" method="POST">
                             @method('delete')
                             {{csrf_field()}}
@@ -86,6 +86,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{$companies->links()}}
     </div>
     @else
     <h3 class="text-center">You have no created companies</h3>
