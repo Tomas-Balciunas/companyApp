@@ -24,10 +24,9 @@ class UserController extends Controller
 
         return back()->with('warning', 'Incorrect email and/or password!');
 
-        // $user = User::where(['user_email' => $request->logemail])->first();
-
+        // $user = User::where(['user_email' => $request->user_email])->first();
         // if ($user) {
-        //     if (Hash::check($request->logpassword, $user->password)) {
+        //     if (Hash::check($request->password, $user->password)) {
         //         $request->session()->put('user_id', $user->id);
         //     } else {
         //         return back()->with('warning', 'Incorrect password!');
@@ -54,11 +53,12 @@ class UserController extends Controller
         return back()->with('message', 'Registration successful! You may now log in.');
     }
 
-    public function logout (Request $request) {
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
-        return redirect('/auth')->with('message', 'You have logged out');
+
+        return redirect('/auth')->with('message', 'You have logged out.');
     }
 }

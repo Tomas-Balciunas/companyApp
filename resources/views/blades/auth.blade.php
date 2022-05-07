@@ -75,4 +75,8 @@
         </div>
     </form>
 </div>
+
+<div id="app" class="d-flex justify-content-center">
+    <recent-api />
+</div>
 @endsection

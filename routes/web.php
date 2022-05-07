@@ -17,9 +17,9 @@ use GuzzleHttp\Middleware;
 */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [CompanyController::class, 'home']);
+    Route::get('/', [CompanyController::class, 'homeView']);
     Route::post('/addCompany', [CompanyController::class, 'addCompany']);
-    Route::get('/edit/{company}', [CompanyController::class, 'edit']);
+    Route::get('/edit/{company}', [CompanyController::class, 'editView']);
     Route::patch('/update/{company}', [CompanyController::class, 'update']);
     Route::delete('/delete/{company}', [CompanyController::class, 'delete']);
 });
